@@ -592,6 +592,8 @@ const _DP=[{"id": 1793896190059, "brand": "tecnifuturo", "name": "Accesorio PC #
 
 const _DC=[{"name": "Accesorios para PC", "brand": "tecnifuturo"}, {"name": "Accesorios Gamer", "brand": "tecnifuturo"}, {"name": "Pantallas", "brand": "tecnifuturo"}, {"name": "Cargadores y cables", "brand": "tecnifuturo"}, {"name": "Audífonos y parlantes", "brand": "tecnifuturo"}, {"name": "Accesorios", "brand": "tecnifuturo"}, {"name": "Computación", "brand": "tecnifuturo"}, {"name": "Power bank y tomas", "brand": "tecnifuturo"}, {"name": "Smartwatch", "brand": "tecnifuturo"}, {"name": "Baterías", "brand": "tecnifuturo"}];
 
+const CAT_VER='3';
+if(localStorage.getItem('tfts_ver')!==CAT_VER){localStorage.removeItem('tfts_products');localStorage.removeItem('tfts_categories');localStorage.setItem('tfts_ver',CAT_VER)}
 let products=JSON.parse(localStorage.getItem('tfts_products')||'null');
 if(!products||!products.length){products=_DP;localStorage.setItem('tfts_products',JSON.stringify(products))}
 let categories=JSON.parse(localStorage.getItem('tfts_categories')||'null');
@@ -687,11 +689,11 @@ async function loadCloudCatalog() {
     const rows = await r.json();
     if (rows.length && rows[0].data) {
       const cloud = rows[0].data;
-      if (cloud.products && cloud.products.length) {
+      if (cloud.products && cloud.products.length >= _DP.length) {
         products = cloud.products;
         localStorage.setItem('tfts_products', JSON.stringify(products));
       }
-      if (cloud.categories && cloud.categories.length) {
+      if (cloud.products && cloud.products.length >= _DP.length && cloud.categories && cloud.categories.length) {
         categories = cloud.categories;
         localStorage.setItem('tfts_categories', JSON.stringify(categories));
       }
